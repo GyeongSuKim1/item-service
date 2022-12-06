@@ -35,9 +35,8 @@ public class ItemRepository {
         findItem.setQuantity(updateParam.getQuantity());
     }
 
-    // Test겸으로 만듬
+    // Test 용 으로 만듬
     public void clearStore() {
         store.clear();
     }
-
 }
