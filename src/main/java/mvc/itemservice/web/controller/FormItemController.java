@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/items")
 @RequiredArgsConstructor
-public class ItemController {
+public class FormItemController {
 
     private final ItemRepository itemRepository;
 
