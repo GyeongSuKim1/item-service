@@ -40,6 +40,11 @@
         <input type="text" id="quantity" name="quantity" class="form-control"
                value="10" readonly th:value="${item.quantity}">
     </div>
+    <br>
+    <b> 판매 여부 :
+        <span th:if="${item.open}" th:text="On" style="color: blue"> </span>
+        <span th:unless="${item.open}" th:text="Off" style="color: red"> </span>
+    </b>
     <hr class="my-4">
     <div class="row">
         <div class="col">
