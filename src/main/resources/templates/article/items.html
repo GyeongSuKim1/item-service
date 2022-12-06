@@ -32,6 +32,7 @@
                 <th>상품명</th>
                 <th>가격</th>
                 <th>수량</th>
+                <th>판매 여부</th>
             </tr>
             </thead>
             <tbody th:each="item : ${items}">
@@ -44,6 +45,8 @@
                        th:text="${item.itemName}">item.itemName</a></td>
                 <td th:text="${item.price}">item.price</td>
                 <td th:text="${item.quantity}">item.quantity</td>
+                <td th:if="${item.open}" th:text="판매중">판매 여부</td>
+                <td th:unless="${item.open}" th:text="판매종료">판매 여부</td>
             </tr>
             </tbody>
         </table>

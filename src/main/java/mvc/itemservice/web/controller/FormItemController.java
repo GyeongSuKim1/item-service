@@ -1,16 +1,23 @@
 package mvc.itemservice.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mvc.itemservice.domain.Repository.ItemRepository;
+import mvc.itemservice.domain.item.DeliveryCode;
 import mvc.itemservice.domain.item.Item;
+import mvc.itemservice.domain.item.ItemType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/items")
 @RequiredArgsConstructor
@@ -18,10 +25,39 @@ public class FormItemController {
 
     private final ItemRepository itemRepository;
 
+    // 등록지역
+    @ModelAttribute("regions")
+    public Map<String, String> regions() {
 
-    /**
-     * 테스트용 가데이터 추가
-     */
+        Map<String, String> regions = new LinkedHashMap<>(); // 해시맵은 순서가 보장이 안되서 링크드해시맵 사용
+
+        regions.put("SEOUL", "서울");
+        regions.put("BUSAN", "부산");
+        regions.put("JEJU", "제주");
+
+        return regions;
+    }
+
+    // 상품 종류
+    @ModelAttribute("itemTypes")
+    public ItemType[] itemTypes() {
+
+        return ItemType.values();
+    }
+
+    // 배송 방식
+    @ModelAttribute("deliveryCodes")
+    public List<DeliveryCode> deliveryCodes() {
+
+        List<DeliveryCode> deliveryCodes = new ArrayList<>();
+        deliveryCodes.add(new DeliveryCode("FAST", "빠른 배송"));
+        deliveryCodes.add(new DeliveryCode("NORMAL", "일반 배송"));
+        deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
+
+        return deliveryCodes;
+    }
+
+    // 테스트용 가데이터 추가
     @PostConstruct
     public void init() {
         itemRepository.save(new Item("testA", 10000, 10));
@@ -98,6 +134,10 @@ public class FormItemController {
     @PostMapping("/add")
     public String addItemV4(Item item, RedirectAttributes redirectAttributes) {
 
+        log.info("item.open={}", item.getOpen());
+        log.info("item.regions={}", item.getRegions());
+        log.info("item.itemType={}", item.getItemType());
+
         // PRG Post/Redirect/Get 설정
         Item savedItem = itemRepository.save(item);
 
@@ -123,5 +163,6 @@ public class FormItemController {
 
         return "redirect:/items/{itemId}";
     }
+
 
 }
