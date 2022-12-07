@@ -18,7 +18,7 @@
   </div>
 
   <!--    해당 조건이 참이면 h2태그 실행-->
-  <h2 th:if="${param.status}" th:text="'저장 완료!'"></h2>
+  <h2 th:if="${param.status}" th:text="#{page.save}"></h2>
 
   <div>
     <label for="itemId" th:text="#{label.item.id}">상품 ID</label>

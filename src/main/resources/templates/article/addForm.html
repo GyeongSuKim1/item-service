@@ -15,7 +15,7 @@
   <div class="py-5 text-center">
     <h2 th:text="#{page.addItem}">상품 등록 폼</h2>
   </div>
-  <h4 class="mb-3">상품 입력</h4>
+  <h4 class="mb-3" th:text="#{label.item}">상품 입력</h4>
   <!-- 같은 url 이기 때문에 action 을 비워도 된다 -->
   <form action="item.html" th:action method="post" th:object="${item}">
     <div>
