@@ -3,6 +3,7 @@ package mvc.itemservice.domain.item;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
 import java.util.List;
 
 @Getter @Setter
@@ -21,9 +22,15 @@ public class Item {
     public Item() {
     }
 
-    public Item(String itemName, Integer price, Integer quantity) {
+
+    public Item(String itemName, Integer price, Integer quantity,
+                Boolean open, String regions, ItemType itemType, String deliveryCode) {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
+        this.open = open;
+        this.regions = Collections.singletonList(regions);
+        this.itemType = itemType;
+        this.deliveryCode = deliveryCode;
     }
 }

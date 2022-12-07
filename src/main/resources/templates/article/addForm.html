@@ -13,21 +13,21 @@
 <body>
 <div class="container">
   <div class="py-5 text-center">
-    <h2>상품 등록 폼</h2>
+    <h2 th:text="#{page.addItem}">상품 등록 폼</h2>
   </div>
   <h4 class="mb-3">상품 입력</h4>
   <!-- 같은 url 이기 때문에 action 을 비워도 된다 -->
   <form action="item.html" th:action method="post" th:object="${item}">
     <div>
-      <label for="itemName">상품명</label>
-      <input type="text" id="itemName" name="itemName" th:field="*{itemName}" class="formcontrol"
+      <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
+      <input type="text" id="itemName" name="itemName" th:field="*{itemName}" class="form-control"
              placeholder="이름을 입력하세요">
     </div>
 
     <br>
 
     <div>
-      <label for="price">가격</label>
+      <label for="price" th:text="#{label.item.price}">가격</label>
       <input type="text" id="price" name="price" class="form-control"
              th:field="*{price}" placeholder="가격을 입력하세요">
     </div>
@@ -35,15 +35,15 @@
     <br>
 
     <div>
-      <label for="quantity">수량</label>
-      <input type="text" id="quantity" name="quantity" th:field="*{quantity}" class="formcontrol"
+      <label for="quantity" th:text="#{label.item.quantity}">수량</label>
+      <input type="text" id="quantity" name="quantity" th:field="*{quantity}" class="form-control"
              placeholder="수량을 입력하세요">
     </div>
     <br>
     <hr class="my-4">
 
     <!-- single checkbox -->
-    <div>판매 여부</div>
+    <div th:text="#{label.item.open}">판매 여부</div>
     <div>
       <div class="form-check">
         <input type="checkbox" id="open" name="open" th:field="*{open}" class="form-check-input">
@@ -53,7 +53,7 @@
 
     <!-- multi checkbox -->
     <div>
-      <div>등록 지역</div>
+      <div th:text="#{label.item.regions}">등록 지역</div>
       <div th:each="region : ${regions}" class="form-check form-check-inline">
         <input type="checkbox" th:field="*{regions}" th:value="${region.key}"
                class="form-check-input">
@@ -64,7 +64,7 @@
 
     <!-- radio button -->
     <div>
-      <div>상품 종류</div>
+      <div th:text="#{label.item.itemType}">상품 종류</div>
       <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
         <input type="radio" th:field="*{itemType}" th:value="${type.name()}"
                class="form-check-input">
@@ -77,7 +77,7 @@
 
     <!-- SELECT -->
     <div>
-      <div>배송 방식</div>
+      <div th:text="#{label.item.deliveryCode}">배송 방식</div>
       <select th:field="*{deliveryCode}" class="form-select">
         <option value="">==배송 방식 선택==</option>
         <option th:each="deliveryCode : ${deliveryCodes}" th:value="${deliveryCode.code}"
@@ -89,13 +89,14 @@
 
     <div class="row">
       <div class="col">
-        <button class="w-100 btn btn-primary btn-lg" type="submit">상품 등록</button>
+        <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">상품 등록</button>
       </div>
 
       <div class="col">
         <button class="w-100 btn btn-secondary btn-lg"
                 onclick="location.href='items.html'"
                 th:onclick="|location.href='@{/items}'|"
+                th:text="#{button.cancel}"
                 type="button">취소
         </button>
       </div>

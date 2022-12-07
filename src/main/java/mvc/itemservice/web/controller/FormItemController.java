@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -60,8 +57,10 @@ public class FormItemController {
     // 테스트용 가데이터 추가
     @PostConstruct
     public void init() {
-        itemRepository.save(new Item("testA", 10000, 10));
-        itemRepository.save(new Item("testB", 20000, 20));
+        itemRepository.save(new Item("testA", 10000, 10,
+                true, "SEOUL", ItemType.ETC, "FAST"));
+        itemRepository.save(new Item("testB", 20000, 20,
+                false, "BUSAN", ItemType.BOOK, "NORMAL"));
     }
 
     @GetMapping

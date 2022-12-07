@@ -22,7 +22,8 @@ public class ItemRepositoryTest {
     void save() {
 
         // given
-        Item item = new Item("ItemA", 10000, 10);
+        Item item = new Item("testA", 10000, 10,
+                true, "SEOUL", ItemType.ETC, "FAST");
 
         // when
         Item savedItem = itemRepository.save(item);
@@ -36,8 +37,10 @@ public class ItemRepositoryTest {
     void fondAll() {
 
         // given
-        Item itemA = new Item("ItemA", 10000, 10);
-        Item itemB = new Item("ItemB", 10000, 10);
+        Item itemA = new Item("testA", 10000, 10,
+                true, "SEOUL", ItemType.ETC, "FAST");
+        Item itemB = new Item("testB", 12200, 18,
+                false, "BUSAN", ItemType.BOOK, "SLOW");
 
         itemRepository.save(itemA);
         itemRepository.save(itemB);
@@ -54,13 +57,15 @@ public class ItemRepositoryTest {
     void updateItem() {
 
         // given
-        Item item = new Item("Item!", 10000, 10);
+        Item item = new Item("testA", 10000, 10,
+                true, "SEOUL", ItemType.ETC, "FAST");
 
         Item saveItem = itemRepository.save(item);
         Long itemId = saveItem.getId();
 
         // when
-        Item updateParam = new Item("Item^^", 11111, 11);
+        Item updateParam = new Item("testA", 9900, 3,
+                true, "SEOUL", ItemType.FOOD, "NORMAL");
         itemRepository.update(itemId, updateParam);
 
         //then
