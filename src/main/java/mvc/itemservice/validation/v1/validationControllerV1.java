@@ -108,6 +108,14 @@ public class validationControllerV1 {
             errors.put("quantity", "수량은 최대 9.999개 까지 허용합니다.");
             System.out.println(errors);
         }
+        if(item.getRegions().isEmpty()) {
+            errors.put("regions", "등록지역을 선택해주세요.");
+            System.out.println(errors);
+        }
+        if(item.getItemType() == null) {
+            errors.put("itemType", "상품 종류를 선택해주세요.");
+            System.out.println(errors);
+        }
 
         // 특정 필드가 아닌 복합 룰 검증
         if (item.getPrice() != null && item.getQuantity() != null) {
@@ -117,14 +125,6 @@ public class validationControllerV1 {
                         "가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값 = " + resultPrice + "원");
                 System.out.println(errors);
             }
-        }
-        if(item.getRegions().isEmpty()) {
-            errors.put("regions", "등록지역을 선택해주세요.");
-            System.out.println(errors);
-        }
-        if(item.getItemType() == null) {
-            errors.put("itemType", "상품 종류를 선택해주세요.");
-            System.out.println(errors);
         }
 
         // 검증에 실패하면 다시 입력 폼으로

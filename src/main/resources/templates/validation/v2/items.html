@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<link href="../css/bootstrap.min.css"
+      th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<body>
+
+<div class="container" style="max-width: 600px">
+  <div class="py-5 text-center">
+    <h2>상품 목록</h2>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary float-end"
+              onclick="location.href='addForm.html'"
+              th:onclick="|location.href='@{/v2/items/add}'|"
+              th:text="#{page.addItem}"
+              type="button">상품 등록
+      </button>
+    </div>
+  </div>
+  <hr class="my-4">
+  <div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th th:text="#{label.item.id}">ID</th>
+        <th th:text="#{label.item.itemName}">상품명</th>
+        <th th:text="#{label.item.price}">가격</th>
+        <th th:text="#{label.item.quantity}">수량</th>
+        <th th:text="#{label.item.open}">판매 여부</th>
+      </tr>
+      </thead>
+      <tbody th:each="item : ${items}">
+      <tr>
+        <td><a href="item.html"
+               th:href="@{/v2/items/{itemId}(itemId=${item.id})}"
+               th:text="${item.id}">item.id</a></td>
+        <td><a href="item.html"
+               th:href="@{|/v2/items/${item.id}|}"
+               th:text="${item.itemName}">item.itemName</a></td>
+        <td th:text="${item.price}">item.price</td>
+        <td th:text="${item.quantity}">item.quantity</td>
+        <td th:if="${item.open}" th:text="판매중">판매 여부</td>
+        <td th:unless="${item.open}" th:text="판매종료">판매 여부</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> <!-- /container -->
+
+</body>
+</html>
