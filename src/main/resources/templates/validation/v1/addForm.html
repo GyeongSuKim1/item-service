@@ -88,8 +88,14 @@
     <!-- multi checkbox -->
     <div>
       <div th:text="#{label.item.regions}">등록 지역</div>
+        <div class="field-error"
+             th:if="${errors?.containsKey('regions')}"
+             th:text="${errors['regions']}">
+          등록 지역 오류
+        </div>
       <div th:each="region : ${regions}" class="form-check form-check-inline">
         <input type="checkbox" th:field="*{regions}" th:value="${region.key}"
+               th:classappend="${errors?.containsKey('regions')} ? 'field-error' : _"
                class="form-check-input">
         <label th:for="${#ids.prev('regions')}"
                th:text="${region.value}" class="form-check-label">서울</label>
@@ -99,8 +105,13 @@
     <!-- radio button -->
     <div>
       <div th:text="#{label.item.itemType}">상품 종류</div>
+        <div class="field-error"
+             th:if="${errors?.containsKey('itemType')}"
+             th:text="${errors['itemType']}">
+        </div>
       <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
         <input type="radio" th:field="*{itemType}" th:value="${type.name()}"
+               th:classappend="${errors?.containsKey('itemType')} ? 'field-error' : _"
                class="form-check-input">
         <label th:for="${#ids.prev('itemType')}" th:text="${type.description}"
                class="form-check-label">

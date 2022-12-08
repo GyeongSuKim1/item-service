@@ -3,7 +3,9 @@ package mvc.itemservice.validation.v1;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mvc.itemservice.domain.Repository.ItemRepository;
+import mvc.itemservice.domain.item.DeliveryCode;
 import mvc.itemservice.domain.item.Item;
+import mvc.itemservice.domain.item.ItemType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,38 @@ import java.util.*;
 public class validationControllerV1 {
 
     private final ItemRepository itemRepository;
+
+    // 등록지역
+    @ModelAttribute("regions")
+    public Map<String, String> regions() {
+
+        Map<String, String> regions = new LinkedHashMap<>(); // 해시맵은 순서가 보장이 안되서 링크드해시맵 사용
+
+        regions.put("SEOUL", "서울");
+        regions.put("BUSAN", "부산");
+        regions.put("JEJU", "제주");
+
+        return regions;
+    }
+
+    // 상품 종류
+    @ModelAttribute("itemTypes")
+    public ItemType[] itemTypes() {
+
+        return ItemType.values();
+    }
+
+    // 배송 방식
+    @ModelAttribute("deliveryCodes")
+    public List<DeliveryCode> deliveryCodes() {
+
+        List<DeliveryCode> deliveryCodes = new ArrayList<>();
+        deliveryCodes.add(new DeliveryCode("FAST", "빠른 배송"));
+        deliveryCodes.add(new DeliveryCode("NORMAL", "일반 배송"));
+        deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
+
+        return deliveryCodes;
+    }
 
     @GetMapping
     public String items(Model model) {
@@ -83,6 +117,14 @@ public class validationControllerV1 {
                         "가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값 = " + resultPrice + "원");
                 System.out.println(errors);
             }
+        }
+        if(item.getRegions().isEmpty()) {
+            errors.put("regions", "등록지역을 선택해주세요.");
+            System.out.println(errors);
+        }
+        if(item.getItemType() == null) {
+            errors.put("itemType", "상품 종류를 선택해주세요.");
+            System.out.println(errors);
         }
 
         // 검증에 실패하면 다시 입력 폼으로
