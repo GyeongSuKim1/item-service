@@ -18,7 +18,7 @@
   - 상품 수정
 
 <details>
-<summary style="font-size: 18px"> 추가 요구사항 </summary>
+<summary style="font-size: 18px;"> 추가 요구사항 </summary>
 <div markdown="1">
 
 > 타임리프를 사용해서 폼에서 체크박스, 라디오 버튼, 셀렉트 박스를 편리하게 사용하는 방법
@@ -52,7 +52,7 @@
 <br>
 
 <details>
-<summary style="font-size: 18px"> 검증 요구사항 </summary>
+<summary style="font-size: 18px;"> 검증 요구사항 </summary>
 <div markdown="1">
 
 - 타입 검증

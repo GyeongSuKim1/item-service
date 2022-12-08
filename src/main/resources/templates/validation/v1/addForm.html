@@ -8,6 +8,11 @@
       .container {
           max-width: 560px;
       }
+
+      .field-error {
+          border-color: #dc3545;
+          color: #dc3545;
+      }
   </style>
 </head>
 <body>
@@ -19,10 +24,22 @@
 
   <!-- 같은 url 이기 때문에 action 을 비워도 된다 -->
   <form action="item.html" th:action method="post" th:object="${item}">
+    <div th:if="${errors?.containsKey('globalError')}">
+      <p class="field-error" th:text="${errors['globalError']}">전체 오류</p>
+    </div>
+
     <div>
       <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
-      <input type="text" id="itemName" name="itemName" th:field="*{itemName}" class="form-control"
+      <input type="text" id="itemName" name="itemName" class="form-control"
+             th:field="*{itemName}"
+             th:class="${errors?.containsKey('itemName')} ?
+             'form-control field-error' : 'form-control'"
              placeholder="이름을 입력하세요">
+      <div class="field-error"
+           th:if="${errors?.containsKey('itemName')}"
+           th:text="${errors['itemName']}">
+        상품명 오류
+      </div>
     </div>
 
     <br>
@@ -30,16 +47,32 @@
     <div>
       <label for="price" th:text="#{label.item.price}">가격</label>
       <input type="text" id="price" name="price" class="form-control"
-             th:field="*{price}" placeholder="가격을 입력하세요">
+             th:field="*{price}"
+             th:class="${errors?.containsKey('price')} ?
+             'form-control field-error' : 'form-control'"
+             placeholder="가격을 입력하세요">
+      <div class="field-error"
+           th:if="${errors?.containsKey('price')}"
+           th:text="${errors['price']}">
+
+      </div>
     </div>
 
     <br>
 
     <div>
       <label for="quantity" th:text="#{label.item.quantity}">수량</label>
-      <input type="text" id="quantity" name="quantity" th:field="*{quantity}" class="form-control"
+      <input type="text" id="quantity" name="quantity" class="form-control"
+             th:field="*{quantity}"
+             th:class="${errors?.containsKey('quantity')} ?
+             'form-control field-error' : 'form-control'"
              placeholder="수량을 입력하세요">
+      <div class="field-error"
+           th:if="${errors?.containsKey('quantity')}"
+           th:text="${errors['quantity']}">
+      </div>
     </div>
+
     <br>
     <hr class="my-4">
 
@@ -96,7 +129,7 @@
       <div class="col">
         <button class="w-100 btn btn-secondary btn-lg"
                 onclick="location.href='items.html'"
-                th:onclick="|location.href='@{/items}'|"
+                th:onclick="|location.href='@{/v1/items}'|"
                 th:text="#{button.cancel}"
                 type="button">취소
         </button>
