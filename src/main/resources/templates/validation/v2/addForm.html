@@ -119,6 +119,10 @@
     <!-- SELECT -->
     <div>
       <div th:text="#{label.item.deliveryCode}">배송 방식</div>
+      <div class="field-error"
+           th:errors="*{deliveryCode}">
+        배송 오류
+      </div>
       <select th:field="*{deliveryCode}" class="form-select">
         <option value="">==배송 방식 선택==</option>
         <option th:each="deliveryCode : ${deliveryCodes}" th:value="${deliveryCode.code}"
