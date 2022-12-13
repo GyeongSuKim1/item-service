@@ -18,7 +18,7 @@
 //@Controller
 //@RequestMapping("/v1/items")
 //@RequiredArgsConstructor
-//public class validationControllerV1 {
+//public class ValidationControllerV1 {
 //
 //    private final ItemRepository itemRepository;
 //

@@ -1,17 +1,13 @@
-package mvc.itemservice.validation.v2;
+package mvc.itemservice.validation.v3;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mvc.itemservice.domain.Repository.ItemRepository;
-import mvc.itemservice.domain.item.DeliveryCode;
-import mvc.itemservice.domain.item.Item;
-import mvc.itemservice.domain.item.ItemType;
-import mvc.itemservice.validation.ItemValidator;
+import mvc.itemservice.domain.item.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -22,18 +18,11 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/v2/items")
+@RequestMapping("/v3/items")
 @RequiredArgsConstructor
-public class validationControllerV2 {
+public class ValidationControllerV3 {
 
     private final ItemRepository itemRepository;
-    private final ItemValidator itemValidator;
-
-    @InitBinder // 검증
-    public void init(WebDataBinder dataBinder) {
-        log.info("init binder {}", dataBinder);
-        dataBinder.addValidators(itemValidator);
-    }
 
     // 등록지역
     @ModelAttribute("regions")
@@ -73,7 +62,7 @@ public class validationControllerV2 {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
 
-        return "validation/v2/items";
+        return "validation/v3/items";
     }
 
     @GetMapping("/{itemId}")
@@ -82,7 +71,7 @@ public class validationControllerV2 {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
 
-        return "validation/v2/item";
+        return "validation/v3/item";
     }
 
     @GetMapping("/add")
@@ -90,17 +79,33 @@ public class validationControllerV2 {
 
         model.addAttribute("item", new Item());
 
-        return "validation/v2/addForm";
+        return "validation/v3/addForm";
     }
 
     @PostMapping("/add")
-    public String addItemV6(@Validated @ModelAttribute Item item, BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes) {
+    public String addItem(@Validated(SaveCheck.class) @ModelAttribute Item item,
+                          BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        log.info("item.itemName={}", item.getItemName());
+        log.info("item.Price={}", item.getPrice());
+        log.info("item.Quantity={}", item.getQuantity());
+        System.out.println();
+        log.info("item.open={}", item.getOpen());
+        log.info("item.regions={}", item.getRegions());
+        log.info("item.itemType={}", item.getItemType());
+
+        // 오브젝트 오류
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
 
         // 검증에 실패하면 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
-            return "validation/v2/addForm";
+            return "validation/v3/addForm";
         }
 
         // 성공 로직
@@ -108,7 +113,7 @@ public class validationControllerV2 {
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
 
-        return "redirect:/v2/items/{itemId}";
+        return "redirect:/v3/items/{itemId}";
     }
 
     @GetMapping("/{itemId}/edit")
@@ -117,14 +122,27 @@ public class validationControllerV2 {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
 
-        return "validation/v2/editForm";
+        return "validation/v3/editForm";
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
+    public String edit(@PathVariable Long itemId, @Validated(UpdateCheck.class)
+    @ModelAttribute Item item, BindingResult bindingResult) {
+
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            return "validation/v3/editForm";
+        }
 
         itemRepository.update(itemId, item);
 
-        return "redirect:/v2/items/{itemId}";
+        return "redirect:/v3/items/{itemId}";
     }
 }

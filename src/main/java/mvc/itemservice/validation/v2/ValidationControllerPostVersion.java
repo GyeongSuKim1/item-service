@@ -2,20 +2,10 @@ package mvc.itemservice.validation.v2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mvc.itemservice.domain.Repository.ItemRepository;
-import mvc.itemservice.domain.item.Item;
-import mvc.itemservice.validation.ItemValidator;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RequiredArgsConstructor
 @Slf4j
-public class validationControllerPostVersion {
+public class ValidationControllerPostVersion {
 
 /*    private final ItemRepository itemRepository;
     private final ItemValidator itemValidator;

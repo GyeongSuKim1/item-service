@@ -18,8 +18,8 @@ public class ItemValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 
-        Item item = (Item) target;  // Item을 넘김
-        
+        Item item = (Item) target;  // Item 을 넘김
+
         // 검증 로직
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "itemName", "required");
 
