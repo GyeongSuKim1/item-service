@@ -1,4 +1,4 @@
-//package mvc.itemservice.validation.v1;
+//package mvc.itemservice.web.controller.item.validation.v1;
 //
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;

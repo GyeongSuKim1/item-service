@@ -1,11 +1,13 @@
-//package mvc.itemservice.web.controller;
+//package mvc.itemservice.web.controller.item;
 //
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import mvc.itemservice.domain.Repository.ItemRepository;
+//import mvc.itemservice.domain.Repository.MemberRepository;
 //import mvc.itemservice.domain.item.DeliveryCode;
 //import mvc.itemservice.domain.item.Item;
 //import mvc.itemservice.domain.item.ItemType;
+//import mvc.itemservice.domain.member.Member;
 //import org.springframework.stereotype.Controller;
 //import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.*;
@@ -52,15 +54,6 @@
 //        deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
 //
 //        return deliveryCodes;
-//    }
-//
-//    // 테스트용 가데이터 추가
-//    @PostConstruct
-//    public void init() {
-//        itemRepository.save(new Item("testA", 10000, 10,
-//                true, "SEOUL", ItemType.ETC, "FAST"));
-//        itemRepository.save(new Item("testB", 20000, 20,
-//                false, "BUSAN", ItemType.BOOK, "NORMAL"));
 //    }
 //
 //    @GetMapping

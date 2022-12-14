@@ -1,4 +1,4 @@
-package mvc.itemservice.domain.item.dto;
+package mvc.itemservice.web.dto;
 
 import lombok.Data;
 import mvc.itemservice.domain.item.ItemType;
@@ -11,10 +11,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-public class ItemUpdateDto {
-
-    @NotNull
-    private Long id;
+public class ItemTestDto {
 
     @NotBlank
     private String itemName;
@@ -23,8 +20,8 @@ public class ItemUpdateDto {
     @Range(min = 1000, max = 1000000)
     private Integer price;
 
-    // 수정시 한계점 변경
-    @Max(value = 100000)
+    @NotNull
+    @Max(value = 9999)
     private Integer quantity;
 
     private Boolean open;   // 판매 여부
@@ -38,4 +35,8 @@ public class ItemUpdateDto {
 
     @NotNull
     private String deliveryCode;    // 배송 방식
+
+//    public ItemTestDto(){
+//
+//    }
 }

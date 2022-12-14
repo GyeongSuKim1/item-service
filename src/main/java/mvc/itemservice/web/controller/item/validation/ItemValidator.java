@@ -1,4 +1,4 @@
-package mvc.itemservice.validation;
+package mvc.itemservice.web.controller.item.validation;
 
 import mvc.itemservice.domain.item.Item;
 import org.springframework.stereotype.Component;

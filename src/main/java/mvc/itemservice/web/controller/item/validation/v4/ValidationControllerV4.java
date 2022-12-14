@@ -1,11 +1,11 @@
-package mvc.itemservice.validation.v4;
+package mvc.itemservice.web.controller.item.validation.v4;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mvc.itemservice.domain.Repository.ItemRepository;
 import mvc.itemservice.domain.item.*;
-import mvc.itemservice.domain.item.dto.ItemSaveDto;
-import mvc.itemservice.domain.item.dto.ItemUpdateDto;
+import mvc.itemservice.web.dto.ItemSaveDto;
+import mvc.itemservice.web.dto.ItemUpdateDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

@@ -1,7 +1,7 @@
-package mvc.itemservice.controller;
+package mvc.itemservice.web.controller.item;
 
 import lombok.extern.slf4j.Slf4j;
-import mvc.itemservice.domain.item.dto.ItemTestDto;
+import mvc.itemservice.web.dto.ItemTestDto;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

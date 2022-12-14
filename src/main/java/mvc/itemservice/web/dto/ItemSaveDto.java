@@ -1,4 +1,4 @@
-package mvc.itemservice.domain.item.dto;
+package mvc.itemservice.web.dto;
 
 import lombok.Data;
 import mvc.itemservice.domain.item.Item;
