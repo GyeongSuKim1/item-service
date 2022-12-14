@@ -72,6 +72,8 @@
 </div>
 </details>
 
+<br>
+
 <details>
 <summary style="font-size: 18px;"> 로그인 요구사항 </summary>
 <div markdown="1">
