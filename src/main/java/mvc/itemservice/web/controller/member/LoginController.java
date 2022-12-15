@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mvc.itemservice.domain.member.Member;
 import mvc.itemservice.domain.service.LoginService;
 import mvc.itemservice.web.dto.MemberLoginDto;
+import mvc.itemservice.web.session.SessionManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
 
     private final LoginService loginService;
+    private final SessionManager sessionManager;
 
     @GetMapping("/login")
     public String loginForm(@ModelAttribute("memberLoginDto")MemberLoginDto loginDto) {
@@ -29,6 +32,40 @@ public class LoginController {
     }
 
     @PostMapping("/login")
+    public String loginV2(@Validated @ModelAttribute MemberLoginDto loginDto,
+                          BindingResult bindingResult, HttpServletResponse response){
+
+        if (bindingResult.hasErrors()) {
+            return "members/loginForm";
+        }
+
+        Member loginMember = loginService.login(loginDto.getLoginId(), loginDto.getPassword());
+        log.info("login? {}", loginMember);
+
+        if(loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "members/loginForm";
+        }
+
+        // 로그인 성공 처리
+        // 세션 관리자를 통해 세션을 생성하고, 회원 데이터 보관
+        sessionManager.createSession(loginMember, response);
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logoutV2(HttpServletRequest request) {
+
+        sessionManager.expire(request);
+
+        return "redirect:/";
+    }
+
+
+
+
+//    @PostMapping("/login")
     public String login(@ModelAttribute @Validated MemberLoginDto loginDto,
                         BindingResult bindingResult, HttpServletResponse response) {
 
@@ -38,6 +75,7 @@ public class LoginController {
 
         Member loginMember = loginService.login(loginDto.getLoginId(), loginDto.getPassword());
         log.info("login ? {}", loginMember);
+
         if(loginMember == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "members/loginForm";
@@ -52,7 +90,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/logout")
+//    @PostMapping("/logout")
     public String logout(HttpServletResponse response) {
 
         expireCookie(response, "memberId");
