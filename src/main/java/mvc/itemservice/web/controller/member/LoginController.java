@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mvc.itemservice.domain.member.Member;
 import mvc.itemservice.domain.service.LoginService;
+import mvc.itemservice.web.SessionConst;
 import mvc.itemservice.web.dto.MemberLoginDto;
 import mvc.itemservice.web.session.SessionManager;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,15 +25,61 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
 
     private final LoginService loginService;
-    private final SessionManager sessionManager;
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("memberLoginDto")MemberLoginDto loginDto) {
+    public String loginForm(@ModelAttribute("memberLoginDto") MemberLoginDto loginDto) {
 
         return "members/loginForm";
     }
 
     @PostMapping("/login")
+    public String loginV3(@Validated @ModelAttribute MemberLoginDto loginDto,
+                          BindingResult bindingResult, HttpServletRequest request) {
+
+        if (bindingResult.hasErrors()) {
+            return "members/loginForm";
+        }
+
+        Member loginMember = loginService.login(loginDto.getLoginId(), loginDto.getPassword());
+        log.info("login? {}", loginMember);
+
+        if (loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "members/loginForm";
+        }
+
+        // 로그인 성공 처리
+
+        // 세션이 있으면 있는 세션 반환, 없으면 신규 세션을 생성
+        HttpSession session = request.getSession();
+        // 세션에 로그인 회원 정보를 보관
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logoutV3(HttpServletRequest request) {
+
+        // 세션을 삭제.
+        HttpSession session = request.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
+
+        return "redirect:/";
+    }
+
+
+
+
+
+
+/*
+    private final SessionManager sessionManager;
+
+
+//    @PostMapping("/login")
     public String loginV2(@Validated @ModelAttribute MemberLoginDto loginDto,
                           BindingResult bindingResult, HttpServletResponse response){
 
@@ -52,18 +100,14 @@ public class LoginController {
         sessionManager.createSession(loginMember, response);
 
         return "redirect:/";
-    }
 
-    @PostMapping("/logout")
+//    @PostMapping("/logout")
     public String logoutV2(HttpServletRequest request) {
 
         sessionManager.expire(request);
 
         return "redirect:/";
     }
-
-
-
 
 //    @PostMapping("/login")
     public String login(@ModelAttribute @Validated MemberLoginDto loginDto,
@@ -101,5 +145,5 @@ public class LoginController {
         Cookie cookie = new Cookie(cookieName, null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-    }
+    }*/
 }
