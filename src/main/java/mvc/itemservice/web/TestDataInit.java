@@ -26,10 +26,16 @@ public class TestDataInit {
                 false, "BUSAN", ItemType.BOOK, "NORMAL"));
 
         Member member = new Member();
+        Member memberTwo = new Member();
         member.setLoginId("a");
         member.setName("열두시");
         member.setPassword("a");
 
+        memberTwo.setLoginId("q");
+        memberTwo.setName("아홉시");
+        memberTwo.setPassword("q");
+
         memberRepository.save(member);
+        memberRepository.save(memberTwo);
     }
 }
