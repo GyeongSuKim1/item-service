@@ -6,7 +6,6 @@ import mvc.itemservice.domain.member.Member;
 import mvc.itemservice.domain.service.LoginService;
 import mvc.itemservice.web.SessionConst;
 import mvc.itemservice.web.dto.MemberLoginDto;
-import mvc.itemservice.web.session.SessionManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
