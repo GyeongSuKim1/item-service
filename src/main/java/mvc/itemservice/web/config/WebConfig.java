@@ -13,6 +13,12 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    // @Login 어노테이션
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new LoginMemberArgumentResolver());
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 

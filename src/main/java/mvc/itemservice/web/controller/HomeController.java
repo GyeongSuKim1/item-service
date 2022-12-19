@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mvc.itemservice.domain.Repository.MemberRepository;
 import mvc.itemservice.domain.member.Member;
 import mvc.itemservice.web.SessionConst;
+import mvc.itemservice.web.argumentresolver.Login;
 import mvc.itemservice.web.session.SessionManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,27 @@ import javax.servlet.http.HttpSession;
 public class HomeController {
 
     @GetMapping("/")
-    public String homeLogin(
+    public String homeLoginArgumentResolver(@Login Member loginMember, Model model) {
+
+        if (loginMember == null) {
+            return "home";
+        }
+        model.addAttribute("member", loginMember);
+
+        return "loginHome";
+    }
+
+
+
+
+
+
+
+
+
+    /*
+//    @GetMapping("/")
+    public String homeLoginV4(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
             Member loginMember,
             Model model) {
@@ -35,10 +56,6 @@ public class HomeController {
         return "loginHome";
     }
 
-
-
-
-    /*
 //    @GetMapping("/")
     public String homeLoginV3(HttpServletRequest request, Model model) {
 
